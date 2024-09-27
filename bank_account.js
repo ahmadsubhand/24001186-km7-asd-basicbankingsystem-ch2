@@ -38,21 +38,19 @@ class BankAccount {
     console.log(`Welcome ${_owner}!\n${this.getBalance()}\n`);
   }
 
-  tambahSaldo() {
-    let next = true;
-    let pesan = "";
-    do {
-      let input = parseFloat(window.prompt("Masukkan jumlah saldo yang ingin ditambahkan"))
-      if (!isNaN(input)) {
-        this.saldo += input
-        pesan = `Saldo sebesar ${input} telah ditambahkan!`
-        next = false;
-      } else {
-        pesan = `Jumlah yang dimasukkan tidak valid!`
-      }
-      window.alert(pesan)
-    } while(next)
-    this.cekSaldo();
+  deposit(amount) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (amount > 0) {
+          this._balance += amount;
+          resolve(`Deposit of ${amount} successful. New balance: ${this._balance}.\n`);
+        } else if (amount <= 0) {
+          reject(new InvalidTransactionError(`Deposit amount must be greater than zero.\n`));
+        } else {
+          reject(new DataValidationError(`Please enter a valid number.\n`));
+        }
+      }, 2000);
+    });
   }
 
   kurangiSaldo() {
