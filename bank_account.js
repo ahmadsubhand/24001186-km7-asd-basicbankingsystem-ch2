@@ -75,32 +75,10 @@ class BankAccount {
   cekSaldo() {
     window.alert(`Saldo yang Anda miliki saat ini sebesar ${this.saldo}`);
   }
+
+  getBalance() {
+    return `Current balance: ${this._balance}`;
+  }
 }
 
-window.onload = () => {
-  let next = true;
-  let nasabah = new BankAccount(0, "Ahmad Subhan Daryhadi");
-  do {
-    let pilihan = parseInt(window.prompt(
-      `Menu\n1. Cek Saldo\n2. Tambah Saldo\n3. Kurang saldo\n4. Keluar\nPilih menu yang akan Anda lakukan...`
-    ))
-    switch (pilihan) {
-      case 1:
-        nasabah.cekSaldo();
-        break;
-      case 2:
-        nasabah.tambahSaldo();
-        break;
-      case 3:
-        nasabah.kurangiSaldo();
-        break;
-      case 4:
-        window.alert("Terimakasih sudah menggunakan aplikasi!")
-        next = false;
-        break;
-      default:
-        window.alert("Silahkan masukkan angka yang valid! (1-4)")
-        break;
-    }
-  } while(next)
-}
+module.exports = { BankAccount, errorMessage };
