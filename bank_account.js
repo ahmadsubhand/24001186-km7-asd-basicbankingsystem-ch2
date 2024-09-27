@@ -53,23 +53,23 @@ class BankAccount {
     });
   }
 
-  kurangiSaldo() {
-    let next = true;
-    let pesan = "";
-    do {
-      let input = parseFloat(window.prompt("Masukkan jumlah saldo yang ingin diambil"))
-      if (!isNaN(input) && input <= this.saldo) {
-        this.saldo -= input
-        pesan = `Saldo sebesar ${input} telah diambil!`
-        next = false;
-      } else if (input > this.saldo) {
-        pesan = `Saldo tidak mencukupi!`
-      } else {
-        pesan = `Jumlah yang dimasukkan tidak valid!`
-      }
-      window.alert(pesan)
-    } while(next)
-    this.cekSaldo();
+  withdraw(amount) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (amount > 0 && amount <= this._balance) {
+          this._balance -= amount;
+          resolve(`Withdraw of ${amount} successful. New balance: ${this._balance}.\n`);
+        } else if (this._balance == 0) {
+          reject(new InsufficientFundsError(`You tried to withdraw, but your balance is empty.\n`))
+        } else if (amount <= 0) {
+          reject(new InvalidTransactionError(`Withdraw amount must be greater than zero.\n`));
+        } else if (amount > this._balance) {
+          reject(new InsufficientFundsError(`You tried to withdraw ${amount}, but your balance is only ${this._balance}.\n`));
+        } else {
+          reject(new DataValidationError(`Please enter a valid number.\n`));
+        }
+      }, 2000);
+    });
   }
 
   cekSaldo() {
