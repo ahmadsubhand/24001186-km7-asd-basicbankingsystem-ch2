@@ -1,7 +1,41 @@
+class InsufficientFundsError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "InsufficientFundsError";
+  }
+}
+
+class DataValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "DataValidationError";
+  }
+}
+
+class InvalidTransactionError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "InvalidTransactionError";
+  }
+}
+
+function errorMessage(error) {
+  if (error instanceof InsufficientFundsError) {
+    return `<!> Insufficient funds: ${error.message}`;
+  } else if (error instanceof DataValidationError) {
+    return `<!> Invalid data: ${error.message}`;
+  } else if (error instanceof InvalidTransactionError) {
+    return `<!> Invalid funds: ${error.message}`;
+  } else {
+    return `<!> Unexpected error: ${error.name}`;
+  }
+}
+
 class BankAccount {
-  constructor(saldo, nama) {
-    this.saldo = saldo
-    this.nama = nama
+  constructor(owner, balance = 0) {
+    this._owner = owner;
+    this._balance = balance;
+    console.log(`Welcome ${_owner}!\n${this.getBalance()}\n`);
   }
 
   tambahSaldo() {
