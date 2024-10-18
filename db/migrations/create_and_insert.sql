@@ -33,3 +33,4 @@ CREATE TABLE transaksi (
 CREATE INDEX idx_id_nasabah ON akun(id_nasabah);
 CREATE INDEX idx_saldo ON akun(saldo);
 CREATE INDEX idx_id_akun_transaksi ON transaksi(id_akun);
+-- seharusnya idx_<table>_on_<column_name>
