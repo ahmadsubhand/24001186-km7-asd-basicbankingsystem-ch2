@@ -1,0 +1,1094 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Basic Banking System API",
+    "description": "Sebuah sistem bank sederhana yang mengimplementasikan hal-hal yang sudah dipelajari dari pembelajaran Back End JavaScript - Binar Academy.",
+    "contact": {
+      "email": "ahmadsubhan@apps.ipb.ac.id"
+    },
+    "version": "v1"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "users",
+      "description": "Operations related to users"
+    },
+    {
+      "name": "accounts",
+      "description": "Operations related to bank accounts"
+    },
+    {
+      "name": "transactions",
+      "description": "Operations related to transactions"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Lumine"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "lumine@email.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "12345"
+                  },
+                  "identifyTypes": {
+                    "type": "string",
+                    "example": "ktp"
+                  },
+                  "identifyNumber": {
+                    "type": "string",
+                    "example": "3174868653867653"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "Teyvat"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User registered succesfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Lumine"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "lumine@email.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "h@sh3dp@55w0rd"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all users",
+        "description": "Get list of all users.",
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "All users retrieved successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Lumine"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "lumine@email.com"
+                          },
+                          "password": {
+                            "type": "string",
+                            "example": "12345"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to retrived all users"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "User login",
+        "description": "",
+        "operationId": "loginUser",
+        "requestBody": {
+          "description": "Logging in a user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "lumine@email.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "12345"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User success to login"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Lumine"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "lumine@email.com"
+                        },
+                        "profile": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "identifyTypes": {
+                              "type": "string",
+                              "example": "ktp"
+                            },
+                            "identifyNumber": {
+                              "type": "string",
+                              "example": "3174868653867653"
+                            },
+                            "address": {
+                              "type": "string",
+                              "example": "Teyvat"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "string",
+                          "example": "h@sh3dp@55w0rd"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "User failed to login"
+          }
+        }
+      }
+    },
+    "/users/auth": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Authenticate user",
+        "description": "Authenticates a user using a Bearer token from the Authorization header.",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Authenticate user successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "lumine@email.com"
+                        },
+                        "iat": {
+                          "type": "string",
+                          "example": "1730206893"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/{userId}/": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get user by user id",
+        "description": "",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The id that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User retrieved successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Lumine"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "lumine@email.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "12345"
+                        },
+                        "profile": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "identifyTypes": {
+                              "type": "string",
+                              "example": "ktp"
+                            },
+                            "identifyNumber": {
+                              "type": "string",
+                              "example": "3174868653867653"
+                            },
+                            "address": {
+                              "type": "string",
+                              "example": "Teyvat"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to retrived user"
+          }
+        }
+      }
+    },
+    "/accounts": {
+      "post": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Create account",
+        "description": "",
+        "operationId": "createAccount",
+        "requestBody": {
+          "description": "Created account for user by user id",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bankName": {
+                    "type": "string",
+                    "example": "BRI"
+                  },
+                  "bankAccountNumber": {
+                    "type": "string",
+                    "example": "5644386582"
+                  },
+                  "balance": {
+                    "type": "integer",
+                    "example": 500000
+                  },
+                  "userId": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Account created succesfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "bankName": {
+                          "type": "string",
+                          "example": "BRI"
+                        },
+                        "bankAccountNumber": {
+                          "type": "string",
+                          "example": "5644386582"
+                        },
+                        "balance": {
+                          "type": "integer",
+                          "example": 500000
+                        },
+                        "userId": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to created account"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Get all accounts",
+        "description": "Get list of all accounts.",
+        "operationId": "getAllAccounts",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "All accounts retrieved successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "bankName": {
+                            "type": "string",
+                            "example": "BRI"
+                          },
+                          "bankAccountNumber": {
+                            "type": "string",
+                            "example": "5644386582"
+                          },
+                          "balance": {
+                            "type": "integer",
+                            "example": 500000
+                          },
+                          "userId": {
+                            "type": "integer",
+                            "example": 1
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to retrieved all accounts"
+          }
+        }
+      }
+    },
+    "/accounts/{account}/": {
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Get account by account id",
+        "description": "",
+        "operationId": "getAccountById",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "description": "The id that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Account retrieved successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "bankName": {
+                          "type": "string",
+                          "example": "BRI"
+                        },
+                        "bankAccountNumber": {
+                          "type": "string",
+                          "example": "5644386582"
+                        },
+                        "balance": {
+                          "type": "integer",
+                          "example": 500000
+                        },
+                        "userId": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Lumine"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "lumine@email.com"
+                            },
+                            "password": {
+                              "type": "string",
+                              "example": "12345"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to retrived account"
+          }
+        }
+      }
+    },
+    "/accounts/{account}/withdraw": {
+      "put": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Withdraw from user account",
+        "operationId": "withdrawById",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "description": "The id that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Withdraw from user account by account id",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "integer",
+                    "example": 5000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Withdraw successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "bankName": {
+                          "type": "string",
+                          "example": "BRI"
+                        },
+                        "bankAccountNumber": {
+                          "type": "string",
+                          "example": "5644386582"
+                        },
+                        "balance": {
+                          "type": "integer",
+                          "example": 500000
+                        },
+                        "userId": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to withdraw"
+          }
+        }
+      }
+    },
+    "/accounts/{account}/deposit": {
+      "put": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Deposit from user account",
+        "operationId": "depositById",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "description": "The id that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Deposit from user account by account id",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "integer",
+                    "example": 5000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Deposit successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "bankName": {
+                          "type": "string",
+                          "example": "BRI"
+                        },
+                        "bankAccountNumber": {
+                          "type": "string",
+                          "example": "5644386582"
+                        },
+                        "balance": {
+                          "type": "integer",
+                          "example": 500000
+                        },
+                        "userId": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to deposit"
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "post": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Transfer between user accounts",
+        "description": "",
+        "operationId": "createTransaction",
+        "requestBody": {
+          "description": "Transfer between user accounts by account id",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sourceAccountId": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "destinationAccountId": {
+                    "type": "integer",
+                    "example": 2
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "example": 5000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Transaction successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "amount": {
+                          "type": "integer",
+                          "example": 5000
+                        },
+                        "sourceAccountId": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "destinationAccountId": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "sourceAccount": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "bankName": {
+                              "type": "string",
+                              "example": "BRI"
+                            },
+                            "bankAccountNumber": {
+                              "type": "string",
+                              "example": "5644386582"
+                            },
+                            "balance": {
+                              "type": "integer",
+                              "example": 495000
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "destinationAccount": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 2
+                            },
+                            "bankName": {
+                              "type": "string",
+                              "example": "BRI"
+                            },
+                            "bankAccountNumber": {
+                              "type": "string",
+                              "example": "7864539765"
+                            },
+                            "balance": {
+                              "type": "integer",
+                              "example": 505000
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 3
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Transaction failed"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Get all transactions",
+        "description": "Get list of all transactions.",
+        "operationId": "getAllTransactions",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "All transactions retrieved successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "amount": {
+                            "type": "integer",
+                            "example": 5000
+                          },
+                          "sourceAccountId": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "destinationAccountId": {
+                            "type": "integer",
+                            "example": 2
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to retrieved all transactions"
+          }
+        }
+      }
+    },
+    "/transactions/{transaction}": {
+      "get": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Get transaction by transaction id",
+        "description": "",
+        "operationId": "getTransactionById",
+        "parameters": [
+          {
+            "name": "transaction",
+            "in": "path",
+            "description": "The id that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Transaction retrieved successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "amount": {
+                          "type": "integer",
+                          "example": 5000
+                        },
+                        "sourceAccountId": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "destinationAccountId": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "sourceAccount": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "bankName": {
+                              "type": "string",
+                              "example": "BRI"
+                            },
+                            "bankAccountNumber": {
+                              "type": "string",
+                              "example": "5644386582"
+                            },
+                            "balance": {
+                              "type": "integer",
+                              "example": 495000
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "destinationAccount": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 2
+                            },
+                            "bankName": {
+                              "type": "string",
+                              "example": "BRI"
+                            },
+                            "bankAccountNumber": {
+                              "type": "string",
+                              "example": "7864539765"
+                            },
+                            "balance": {
+                              "type": "integer",
+                              "example": 505000
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 3
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to retrived transaction"
+          }
+        }
+      }
+    }
+  }
+}
