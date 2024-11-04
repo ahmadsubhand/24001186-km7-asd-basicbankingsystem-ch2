@@ -28,7 +28,11 @@ const iamgeKitUpload = async(req, res) => {
       }
     })
   } catch(err) {
-    throw err;
+    console.log(err);
+    res.status(500).json({
+      message: 'Failed to upload image',
+      error: err
+    })
   }
 }
 

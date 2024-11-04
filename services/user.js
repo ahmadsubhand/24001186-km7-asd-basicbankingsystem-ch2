@@ -57,7 +57,8 @@ const loginUser = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user.id, email: user.email }, 'secret');
-    const { password, ...userWithoutPass } = user
+    const userWithoutPass = user;
+    delete userWithoutPass.password;  
     res.status(200).json({
       message: 'User success to login',
       data: {

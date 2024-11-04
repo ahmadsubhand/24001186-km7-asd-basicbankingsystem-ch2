@@ -87,7 +87,8 @@ describe('loginUser', () => {
   test('should validate password and login user', async () => {
     bcrypt.compare.mockResolvedValue(true);
     await loginUser(req, res);
-    const { password, ...userWithoutPass } = userArray[0];
+    const userWithoutPass = { ...userArray[0] };
+    delete userWithoutPass.password;  
     expect(bcrypt.compare).toHaveBeenCalledWith(req.body.password, req.body.password);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({

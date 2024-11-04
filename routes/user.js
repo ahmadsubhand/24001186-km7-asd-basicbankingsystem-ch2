@@ -40,7 +40,7 @@ router.delete('/:userId/reset', async (req, res) => {
     console.log(err);
     res.status(500).json({
       message: 'Failed to reset user profile',
-      data: user
+      error: err
     })
   }
 })
