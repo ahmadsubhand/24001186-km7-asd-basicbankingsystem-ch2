@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1730211864287" clover="3.2.0">
-  <project timestamp="1730211864287" name="All files">
+<coverage generated="1730728023265" clover="3.2.0">
+  <project timestamp="1730728023266" name="All files">
     <metrics statements="388" coveredstatements="388" conditionals="47" coveredconditionals="47" methods="15" coveredmethods="15" elements="450" coveredelements="450" complexity="0" loc="388" ncloc="388" packages="1" files="3" classes="3"/>
     <file name="account.js" path="D:\Programming\Binar Academy\24001186-km7-asd-basicbankingsystem-ch2\services\account.js">
       <metrics statements="126" coveredstatements="126" conditionals="15" coveredconditionals="15" methods="5" coveredmethods="5"/>

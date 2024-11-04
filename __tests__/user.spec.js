@@ -103,7 +103,6 @@ describe('loginUser', () => {
     const errorMessage = 'Invalid email or password';
     bcrypt.compare.mockResolvedValue(false);
     await loginUser(req, res);
-    const { password, ...userWithoutPass } = userArray[0];
     expect(bcrypt.compare).toHaveBeenCalledWith(req.body.password, req.body.password);
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({

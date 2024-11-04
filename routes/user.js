@@ -19,7 +19,7 @@ router.get('/:userId', getUserById);
 
 router.delete('/:userId/reset', async (req, res) => {
   try {
-    const deletedUser = await prisma.profile.delete({
+    await prisma.profile.delete({
       where: {
         userId: parseInt(req.params.userId)
       }

@@ -18,7 +18,7 @@ function transfer(from, to, amount) {
       throw new Error(`Don't have enough to send`)
     }
 
-    const recipient = await tx.bankAccount.update({
+    await tx.bankAccount.update({
       where: {
         id: to,
       },
