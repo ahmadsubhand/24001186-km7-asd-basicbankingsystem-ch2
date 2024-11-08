@@ -46,42 +46,29 @@ jobs:
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
-      - name: 🛠 Install dependencies
-        run: npm install
-      - name: 🛠 Install Vite globally
-        run: npm install -g vite
-      - name: 📂 rsync deployments
-        uses: burnett01/rsync-deployments@5.1
+
+      - name: Set up SSH for Deployment
+        uses: webfactory/ssh-agent@v0.9.3
         with:
-          switches: -avzr --delete
-          path: ./*
-          remote_path: /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/
-          remote_host: 3.107.176.199
-          remote_user: ubuntu
-          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
-      - name: 📂 Set ownership on remote server
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to EC2
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
+          # Pindah ke directory project
+          ssh -o StrictHostKeyChecking=no ubuntu@3.25.73.206 << 'EOF'
 
-          # Create known_hosts file if it doesn't exist
-          mkdir -p /home/runner/.ssh
-          touch /home/runner/.ssh/known_hosts
-          
-          # Clear old key from known_hosts
-          ssh-keygen -R 3.107.176.199 >> /home/runner/.ssh/known_hosts
+          cd ~/24001186-km7-asd-basicbankingsystem-ch2
 
-          # Run the SSH command
-          ssh -i private_key.pem -o StrictHostKeyChecking=no ubuntu@3.107.176.199 \
-          "sudo chown -R ubuntu:ubuntu /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && cd /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && sudo npm install -g vite  && npm install && sudo chown -R ubuntu:ubuntu /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && chmod +x /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/dev_run.sh"          
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: 🎉 Go Deploy to Remote Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: 3.107.176.199
-          username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/
-            ./dev_run.sh
+          # Pull perubahan terbaru dari branch main
+          git pull origin main
+
+          # Install dependencies proyek
+          npm install
+
+          # Generate Prisma Client
+          npx prisma generate
+
+          # Restart App
+          pm2 restart "API Binar Academy" || pm2 start npm --name "API Binar Academy" -- start
+
+          EOF
