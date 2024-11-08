@@ -40,3 +40,55 @@ jobs:
         with:
           file: ./coverage/lcov.info # Path to your coverage file
           token: ${{ secrets.CODECOV_TOKEN }} # Codecov token (should be set in repo secrets)
+  build:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+      - name: 📂 Set working directory
+        run: cd 24001186-km7-asd-basicbankingsystem-ch2
+      - name: 🛠 Install dependencies
+        run: npm install
+        working-directory: 24001186-km7-asd-basicbankingsystem-ch2
+      - name: 🛠 Install Vite globally
+        run: npm install -g vite
+        working-directory: 24001186-km7-asd-basicbankingsystem-ch2
+      - name: 🛠 Build
+        run: npm run build
+        working-directory: 24001186-km7-asd-basicbankingsystem-ch2
+      - name: 📂 rsync deployments
+        uses: burnett01/rsync-deployments@5.1
+        with:
+          switches: -avzr --delete
+          path: ./*
+          remote_path: /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/
+          remote_host: 3.107.176.199
+          remote_user: ubuntu
+          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+      - name: 📂 Set ownership on remote server
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+          # Create known_hosts file if it doesn't exist
+          mkdir -p /home/runner/.ssh
+          touch /home/runner/.ssh/known_hosts
+          
+          # Clear old key from known_hosts
+          ssh-keygen -R 3.107.176.199 >> /home/runner/.ssh/known_hosts
+
+          # Run the SSH command
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ubuntu@3.107.176.199 \
+          "sudo chown -R ubuntu:apache /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && chmod 777 -R /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/storage && chmod -R 777 /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/bootstrap/cache/ && cd /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && sudo npm install -g vite  && npm install && sudo chown -R ubuntu:apache /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && chmod +x /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/dev_run.sh"          
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: 🎉 Deploy to Remote Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: 3.107.176.199
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/
+            ./dev_run.sh

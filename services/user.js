@@ -18,7 +18,7 @@ const createUser = async (req, res) => {
             identifyTypes: req.body.identifyTypes,
             identifyNumber: req.body.identifyNumber,
             address: req.body.address
-          }
+          } 
         }
       }
     })
