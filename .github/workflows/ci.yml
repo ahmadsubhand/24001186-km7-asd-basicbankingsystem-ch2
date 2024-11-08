@@ -73,7 +73,7 @@ jobs:
 
           # Run the SSH command
           ssh -i private_key.pem -o StrictHostKeyChecking=no ubuntu@3.107.176.199 \
-          "sudo chown -R ubuntu:apache /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && chmod 777 -R /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/storage && chmod -R 777 /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/bootstrap/cache/ && cd /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && sudo npm install -g vite  && npm install && sudo chown -R ubuntu:apache /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && chmod +x /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/dev_run.sh"          
+          "sudo chown -R ubuntu:ubuntu /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && chmod 777 -R /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/storage && chmod -R 777 /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/bootstrap/cache/ && cd /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && sudo npm install -g vite  && npm install && sudo chown -R ubuntu:apache /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && chmod +x /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/dev_run.sh"          
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: 🎉 Deploy to Remote Server
