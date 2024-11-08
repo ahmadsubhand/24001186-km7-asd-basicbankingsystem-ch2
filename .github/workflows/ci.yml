@@ -46,17 +46,12 @@ jobs:
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
-      - name: 📂 Set working directory
-        run: cd 24001186-km7-asd-basicbankingsystem-ch2
       - name: 🛠 Install dependencies
         run: npm install
-        working-directory: 24001186-km7-asd-basicbankingsystem-ch2
       - name: 🛠 Install Vite globally
         run: npm install -g vite
-        working-directory: 24001186-km7-asd-basicbankingsystem-ch2
       - name: 🛠 Build
         run: npm run build
-        working-directory: 24001186-km7-asd-basicbankingsystem-ch2
       - name: 📂 rsync deployments
         uses: burnett01/rsync-deployments@5.1
         with:
