@@ -76,7 +76,7 @@ jobs:
           "sudo chown -R ubuntu:ubuntu /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && cd /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && sudo npm install -g vite  && npm install && sudo chown -R ubuntu:ubuntu /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/ && chmod +x /var/www/html/24001186-km7-asd-basicbankingsystem-ch2/dev_run.sh"          
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: 🎉 Deploy to Remote Server
+      - name: 🎉 Go Deploy to Remote Server
         uses: appleboy/ssh-action@master
         with:
           host: 3.107.176.199
