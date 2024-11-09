@@ -1,6 +1,6 @@
 import { Router } from "express";
 // import { imagekitUpload, storageImage } from '../controllers/media.js'
-import { imagekitUpload } from "../controllers/media";
+import { imagekitUpload } from "../controllers/media.js";
 // import storage from '../libs/multer.js'
 import Multer from "multer";
 
