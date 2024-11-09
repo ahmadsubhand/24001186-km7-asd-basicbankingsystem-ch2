@@ -78,7 +78,9 @@ jobs:
 
           # Ganti API_BASE_URL di swagger-template.json
           API_BASE_URL="${{ secrets.API_BASE_URL }}"
-          sed "s|{{API_BASE_URL}}|$API_BASE_URL|g" ./docs/swagger-api-v1.json
+          # echo "API_BASE_URL is: $API_BASE_URL"
+          # sed "s|{{API_BASE_URL}}|$API_BASE_URL|g" ./docs/swagger-api-v1.json
+          sed -i "s|{{API_BASE_URL}}|$API_BASE_URL|g" ./docs/swagger-api-v1.json
 
           # Restart App
           pm2 restart "API Binar Academy" || pm2 start npm --name "API Binar Academy" -- start
