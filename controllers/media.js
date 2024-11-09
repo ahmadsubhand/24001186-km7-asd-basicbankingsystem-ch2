@@ -11,7 +11,7 @@ const storageImage = (req, res) => {
   })
 }
 
-const iamgeKitUpload = async(req, res) => {
+const imagekitUpload = async(req, res) => {
   try {
     const stringFile = req.file.buffer.toString('base64');
     const uploadFile = await imagekit.upload({
@@ -36,4 +36,4 @@ const iamgeKitUpload = async(req, res) => {
   }
 }
 
-export { storageImage, iamgeKitUpload }
+export { storageImage, imagekitUpload }
