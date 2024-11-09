@@ -10,7 +10,8 @@ import swaggerUI from 'swagger-ui-express';
 import mediaRouter from './routes/media.js';
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
+const url_host = process.env.URL_HOST;
 
 import dotenv from 'dotenv';
 dotenv.config()
@@ -30,6 +31,6 @@ app.use('/api/v1/images', mediaRouter);
 // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJSON2))
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:3000`);
-  console.log(`Swagger docs is available at http://localhost:3000/api-docs`);
+  console.log(`Server is running on ${url_host}:${port}`);
+  console.log(`Swagger docs is available at ${url_host}:${port}/api-docs`);
 })

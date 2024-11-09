@@ -14,7 +14,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/api/v1"
+      "url": "{{API_BASE_URL}}/api/v1"
     }
   ],
   "tags": [
@@ -29,6 +29,10 @@
     {
       "name": "transactions",
       "description": "Operations related to transactions"
+    },
+    {
+      "name": "media",
+      "description": "Operations related to media handling"
     }
   ],
   "paths": {
@@ -1086,6 +1090,70 @@
           },
           "500": {
             "description": "Failed to retrived transaction"
+          }
+        }
+      }
+    },
+    "/images/upload": {
+      "post": {
+        "tags": [
+          "media"
+        ],
+        "summary": "Upload image to imagekit",
+        "description": "Upload an image to the imagekit service.",
+        "operationId": "imagekitUpload",
+        "parameters": [
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "The image file to be uploaded.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image uploaded successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "lumine_-MRqa7qb7.png"
+                        },
+                        "url": {
+                          "type": "string",
+                          "example": "https://ik.imagekit.io/asdefgh/lumine_-MRqa7qb7.png"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "image"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to retrieve transaction."
           }
         }
       }
