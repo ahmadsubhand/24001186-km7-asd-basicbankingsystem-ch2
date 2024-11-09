@@ -58,7 +58,7 @@ jobs:
       
       - name: Copy .env to VPS
         run: |
-          scp -o StrictHostKeyChecking=no .env ubuntu@3.25.73.206:/24001186-km7-asd-basicbankingsystem-ch2/.env
+          scp -o StrictHostKeyChecking=no .env ubuntu@3.25.73.206:~/24001186-km7-asd-basicbankingsystem-ch2/.env
 
       - name: Deploy to EC2
         run: |
