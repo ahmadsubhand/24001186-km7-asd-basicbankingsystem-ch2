@@ -43,6 +43,9 @@ jobs:
   build:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
+    needs: 
+      - lint
+      - test
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
@@ -66,6 +69,9 @@ jobs:
           ssh -o StrictHostKeyChecking=no ubuntu@3.25.73.206 << 'EOF'
 
           cd ~/24001186-km7-asd-basicbankingsystem-ch2
+
+          # Simpan sementara perubahan lokal
+          git stash
 
           # Pull perubahan terbaru dari branch main
           git pull origin main
