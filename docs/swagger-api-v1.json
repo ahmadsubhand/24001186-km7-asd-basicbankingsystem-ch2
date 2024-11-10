@@ -1094,7 +1094,7 @@
         }
       }
     },
-    "/images/upload": {
+    "/images/imagekit": {
       "post": {
         "tags": [
           "media"
@@ -1102,18 +1102,22 @@
         "summary": "Upload image to imagekit",
         "description": "Upload an image to the imagekit service.",
         "operationId": "imagekitUpload",
-        "parameters": [
-          {
-            "name": "image",
-            "in": "formData",
-            "description": "The image file to be uploaded.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "binary"
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The image file to upload"
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Image uploaded successfully.",
