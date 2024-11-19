@@ -81,5 +81,4 @@ class UIWebAlerts{
         }, duration);
     }
 }
-
-export default UIWebAlerts
+UIWebAlerts();
