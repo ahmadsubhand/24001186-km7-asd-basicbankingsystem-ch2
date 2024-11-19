@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Basic Banking System</title>
+    <link rel="stylesheet" href="/public/ui-webalerts.css">
+    <script src="/public/ui-webalerts.js"></script>
+  </head>
+  <body>
+    <h1>Dashboard Page</h1>
+    <label for="message">Start chatting here</label> <br> <br>
+    <input type="text" id="message" placeholder="message here">
+    <button type="button" id="submit">submit</button> <br>
+
+    <ul id="chat"></ul> <br> <br>
+
+    <!-- <script src="/socket.io/socket.io.js" charset="utf-8"></script> -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script type="text/javascript">
+      // import { io } from '/socket.io/socket.io.esm.min.js';
+      // Ambil token dari localStorage atau cookie (sesuai dengan penyimpanan Anda)
+      const token = localStorage.getItem('jwt-token');
+
+      // Membuat koneksi Socket.IO dan mengirimkan token melalui handshake
+      const socket = io({
+        auth: {
+          token: token,  // Mengirimkan token dalam handshake
+        }
+      });
+      const webalerts = new UIWebAlerts();
+
+      socket.on('notification', (data) => {
+        webalerts.createAlert("success", data.message, 10000);
+      })
+
+      socket.on('chat', (data) => {
+        const chatDiv = document.getElementById('chat');
+        chatDiv.insertAdjacentHTML('beforeend', `<li>${data.message}</li>`)
+      })
+      
+      document.getElementById("submit").addEventListener('click', () => {
+        const message = document.getElementById('message').value
+        socket.emit('chat',{ message: message });
+      })
+    </script>
+  </body>
+</html>

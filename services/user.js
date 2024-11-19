@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import transporter from "../libs/nodemailer.js";
+import path from "path";
+import fs from 'fs';
 
 const prisma = new PrismaClient();
 const saltRounds = 10;
@@ -26,6 +29,8 @@ const createUser = async (req, res) => {
       message: 'User registered successfully',
       data: user
     })
+
+    res.locals.io.emit('chat', { message: 'User registered successfully!' });
   } catch(err) {
     console.log(err);
     res.status(500).json({
@@ -71,6 +76,87 @@ const loginUser = async (req, res) => {
       message: 'User failed to login',
       error: err.message
     })
+  }
+}
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const resetToken = jwt.sign({ id: user.id, email: user.email }, 'secret');
+    const resetLink = `${process.env.URL_HOST || 'http://localhost:3000'}/public/reset-password?token=${resetToken}`;
+    const htmlTemplatePath = path.join(__dirname, '../../../../../public/forgot-password.html');
+    let htmlContent = fs.readFileSync(htmlTemplatePath, 'utf8');
+    htmlContent = htmlContent.replace('javascript:void(0);', resetLink);
+    
+    await transporter.sendMail({
+      from: process.env.MAILER_USER,
+      to: email,
+      subject: 'Reset Password Request',
+      // text: `Click here to reset your password: ${resetLink}`,
+      html: htmlContent
+    });
+
+    res.status(200).json({ message: 'Reset password link sent to your email' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ 
+      message: 'Failed to send reset link', error: err.message
+    });
+  }
+}
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const { newPassword } = req.body;
+
+    // Verifikasi token
+    jwt.verify(token, 'secret', (err, decoded) => {
+      if (err) {
+        throw new notAuthorized("You're not authorized!");
+      }
+      req.user = decoded;
+    });
+
+    // Update password
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    const updatedUser = await prisma.user.update({
+      where: { 
+        id: req.user.id 
+      },
+      data: { 
+        password: hashedPassword 
+      },
+      include: { 
+        profile: true 
+      }
+    });
+    delete updatedUser.password;
+
+    res.status(200).json({ 
+      message: 'Password updated successfully', 
+      data: { ...updatedUser, token }
+    });
+
+    const socket = res.locals.socket[updatedUser.id]
+    if (socket) {
+      socket.emit('notification', { message: `Your password has been successfully updated!`, userId: updatedUser.id });
+    }
+  } catch (err) {
+    res.status(500).json({ 
+      message: 'Failed to reset password', 
+      error: err.message 
+    });
   }
 }
 
@@ -156,4 +242,4 @@ const getUserById = async(req, res) => {
   }
 }
 
-export { createUser, loginUser, getAllUsers, getUserById, authenticateUser }
+export { createUser, loginUser, getAllUsers, getUserById, authenticateUser, forgotPassword, resetPassword }

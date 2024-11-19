@@ -9,6 +9,7 @@ export default [
       globals: {
         ...globals.node,  // Node.js globals
         ...globals.jest,  // Jest globals
+        ...globals.browser, // Browser globals (e.g., document, window)
       },
     },
     plugins: {

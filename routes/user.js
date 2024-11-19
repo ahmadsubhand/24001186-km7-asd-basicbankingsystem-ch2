@@ -1,19 +1,15 @@
 import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
-import { createUser, loginUser, getAllUsers, getUserById, authenticateUser } from '../services/user.js'
+import { createUser, loginUser, getAllUsers, getUserById, authenticateUser, forgotPassword, resetPassword } from '../services/user.js'
 
 const prisma = new PrismaClient();
 const router = Router();
 
-
-router.use((req, res, next) => {
-  console.log(`Time: ${Date.now()} ${req.method} ${req.url}`);
-  next();
-})
-
 router.post('/', createUser);
 router.post('/login', loginUser);
 router.get('/auth', authenticateUser);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 router.get('/', getAllUsers);
 router.get('/:userId', getUserById);
 

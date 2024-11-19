@@ -3,11 +3,6 @@ import { createAccount, deposit, getAccountById, getAllAccounts, withdraw } from
 
 const router = Router();
 
-router.use((req, res, next) => {
-  console.log(`Time: ${Date.now()} ${req.method} ${req.url}`);
-  next();
-})
-
 router.post('/', createAccount);
 router.get('/', getAllAccounts);
 router.get('/:account', getAccountById);
